@@ -1,0 +1,366 @@
+{
+  "name": "Telegram-бот Coffee Lab",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "844ba63a-91b0-4799-9a91-ce30ee5dae92",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "c68a221a-9cb5-4cab-862f-d3cb4bd81c79"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5991a195-a300-452d-8997-c9b8e35e8e28",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "/start"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dccf41b2-4cae-4b45-839a-0d8a9d519cd2",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "Меню напоїв",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Меню напоїв"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "87029247-6c71-45ef-8a8b-cce8b0c15ca7",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "Контакти",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Контакти"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "625655f6-d7ef-489a-9804-2d3fc43ea7fe",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "Акції",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Акції"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "030c02cf-2827-4b6c-8e98-fdfc5b497f5d",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "Графік роботи",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Графік роботи"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Fallback"
+        }
+      },
+      "id": "003ff56f-5143-444a-99cf-219b1f376cb2",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Вітаємо в Coffee Lab — «Настрій у чашці»! ☕\nОберіть потрібний розділ:",
+        "additionalFields": {
+          "appendAttribution": false
+        },
+        "replyMarkup": "keyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Меню напоїв",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Контакти",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Акції",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Графік роботи",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true
+        }
+      },
+      "id": "339d89a0-c659-4464-b2c9-c8a078251f4c",
+      "name": "Привітання",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "☕ Меню напоїв Coffee Lab (S / M / L, грн):\n\nЕспресо — 45\nАмерикано — 50 / 60 / 70\nКапучино — 65 / 80 / 95\nЛате — 70 / 85 / 100\nФлет вайт — 80\nРаф — 85 / 100 / 115\nМокко — 85 / 100 / 115\nАйс лате — 95 / 110\nМатча лате — 110 / 125\nКакао — 65 / 80 / 95\n\nРослинне молоко +25 грн, сироп +15 грн.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "2f4be7e8-0257-4a18-b8f4-2bbf7b1cf02e",
+      "name": "Меню напоїв",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "📍 Coffee Lab, м. Львів\nвул. Шевченка, 17\nпросп. Чорновола, 67Н\n\n📞 Бронювання та замовлення: +380 67 344 44 23\n📱 Instagram: @coffeelabukraine\nЗамовлення онлайн — у застосунку Coffee Lab, Glovo, Bolt Food.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "7e418b78-26bb-4c1b-8b0e-41a0828b630e",
+      "name": "Контакти",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "🎁 Акції Coffee Lab:\n\n• Кешбек бонусами 5 % у застосунку Coffee Lab.\n• Сезонна пропозиція: гарбузовий лате (M / L).\n• Кава з собою у власній чашці — бонус до замовлення.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "565e7233-5d1d-488f-b202-6c56350d4d3e",
+      "name": "Акції",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "🕒 Графік роботи:\n\nКав’ярні To Go: Пн–Пт 07:30–21:00, Сб–Нд 08:00–21:00\nКав’ярні з кухнею: Пн–Пт 08:00–22:00, Сб–Нд 09:00–22:00\n\nТочний графік конкретної точки — у застосунку Coffee Lab.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "013c2d7d-3cdd-4382-9fb6-7ec86064ba9b",
+      "name": "Графік роботи",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Дякуємо за повідомлення! ☕\nЯ відповідаю лише на кнопки меню. З інших питань телефонуйте: +380 67 344 44 23.\nЩоб повернутися до меню, надішліть /start.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "09b58488-186d-4bd6-89a4-c49487f484ff",
+      "name": "Стандартна відповідь",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        700
+      ]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Привітання",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Меню напоїв",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Контакти",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Акції",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Графік роботи",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Стандартна відповідь",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}
